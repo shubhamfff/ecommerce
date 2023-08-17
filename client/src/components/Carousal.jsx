@@ -8,7 +8,7 @@ const Carousal = ({ media }) => (
           <div>
             <img
               src={`${import.meta.env.VITE_STRAPI_API}${img.attributes.url}`}
-              style={{ width: "100%", height: "90vh" }}
+              style={{ width: "100%", height: "100vh" }}
             />
           </div>
         );

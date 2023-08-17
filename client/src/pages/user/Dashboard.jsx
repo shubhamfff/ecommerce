@@ -2,13 +2,14 @@ import {
   ClusterOutlined,
   UsergroupAddOutlined,
   CodeSandboxOutlined,
-  DropboxOutlined,
+  HeartOutlined,
 } from "@ant-design/icons";
 import { Divider, Menu, Switch } from "antd";
 import { Col, Row } from "antd";
 import { useState } from "react";
 import Order from "./Order";
 import Profile from "./Profile";
+import WishlistItems from "./wishlistItems";
 
 function getItem(label, key, icon, children) {
   return {
@@ -21,7 +22,7 @@ function getItem(label, key, icon, children) {
 const items = [
   getItem("Profile", "1", <ClusterOutlined />),
   getItem("Orders", "2", <CodeSandboxOutlined />),
-  getItem("Users", "3", <UsergroupAddOutlined />),
+  getItem("Wishlist Items", "3", <HeartOutlined />),
 ];
 const UserDashboard = () => {
   const [mode, setMode] = useState("inline");
@@ -47,7 +48,7 @@ const UserDashboard = () => {
         <Col span={20} push={4}>
           {active == 1 ? <Profile /> : ""}
           {active == 2 ? <Order /> : ""}
-          {active == 3 ? "three" : ""}
+          {active == 3 ? <WishlistItems /> : ""}
         </Col>
         <Col span={4} pull={20}>
           <Menu

@@ -24,6 +24,7 @@ import UserDashboard from "./pages/user/Dashboard";
 import Order from "./pages/user/Order";
 import Profile from "./pages/user/Profile";
 import PrivateRoute from "./components/Routes/Private";
+import Checkout from "./pages/Checkout";
 
 const router = createBrowserRouter(
   createRoutesFromElements(
@@ -34,6 +35,7 @@ const router = createBrowserRouter(
         <Route path="/all-products" element={<AllProducts />} />
         <Route path="/product/:slug" element={<ProductDetails />} />
         <Route path="/cart" element={<CartPage />} />
+        <Route path="/checkout" element={<Checkout />} />
         <Route path="login" element={<Login />} />
         <Route path="register" element={<Register />} />
         <Route path="/categories" element={<Categories />} />

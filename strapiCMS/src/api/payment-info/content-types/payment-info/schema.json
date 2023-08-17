@@ -1,0 +1,25 @@
+{
+  "kind": "singleType",
+  "collectionName": "payment_infos",
+  "info": {
+    "singularName": "payment-info",
+    "pluralName": "payment-infos",
+    "displayName": "paymentInfo"
+  },
+  "options": {
+    "draftAndPublish": true
+  },
+  "pluginOptions": {},
+  "attributes": {
+    "image": {
+      "allowedTypes": [
+        "images",
+        "files",
+        "videos",
+        "audios"
+      ],
+      "type": "media",
+      "multiple": false
+    }
+  }
+}

@@ -61,7 +61,6 @@ const Order = () => {
                             >
                               <tr>
                                 <td>{i + 1}</td>
-                                <td>{o?.status}</td>
                                 <td>{o?.buyer?.name}</td>
                                 <td>{o?.createAt}</td>
                                 <td>
@@ -74,6 +73,7 @@ const Order = () => {
                         ),
                         children: (
                           <div className="container">
+                            <p>Order #: {o._id}</p>
                             {o?.products?.map((p, i) => (
                               <div
                                 className="row mb-2 p-3 card flex-row"

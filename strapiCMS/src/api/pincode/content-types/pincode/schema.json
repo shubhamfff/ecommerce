@@ -1,0 +1,19 @@
+{
+  "kind": "collectionType",
+  "collectionName": "pincodes",
+  "info": {
+    "singularName": "pincode",
+    "pluralName": "pincodes",
+    "displayName": "Pincode",
+    "description": ""
+  },
+  "options": {
+    "draftAndPublish": true
+  },
+  "pluginOptions": {},
+  "attributes": {
+    "pincode": {
+      "type": "biginteger"
+    }
+  }
+}

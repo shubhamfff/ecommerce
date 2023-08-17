@@ -1,0 +1,25 @@
+{
+  "kind": "singleType",
+  "collectionName": "address_infos",
+  "info": {
+    "singularName": "address-info",
+    "pluralName": "address-infos",
+    "displayName": "addressInfo"
+  },
+  "options": {
+    "draftAndPublish": true
+  },
+  "pluginOptions": {},
+  "attributes": {
+    "image": {
+      "allowedTypes": [
+        "images",
+        "files",
+        "videos",
+        "audios"
+      ],
+      "type": "media",
+      "multiple": false
+    }
+  }
+}

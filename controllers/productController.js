@@ -21,7 +21,7 @@ export const createProductController = async (req, res) => {
   try {
     const { name, description, price, category, quantity, shipping } =
       req.fields;
-    const { photo } = req.files;
+    const { photo, photo1, photo2 } = req.files;
     //alidation
     switch (true) {
       case !name:
@@ -38,12 +38,28 @@ export const createProductController = async (req, res) => {
         return res
           .status(500)
           .send({ error: "photo is Required and should be less then 1mb" });
+      case photo1 && photo1.size > 1000000:
+        return res
+          .status(500)
+          .send({ error: "photo1 is Required and should be less then 1mb" });
+      case photo2 && photo2.size > 1000000:
+        return res
+          .status(500)
+          .send({ error: "photo2 is Required and should be less then 1mb" });
     }
 
     const products = new productModel({ ...req.fields, slug: slugify(name) });
     if (photo) {
       products.photo.data = fs.readFileSync(photo.path);
       products.photo.contentType = photo.type;
+    }
+    if (photo1) {
+      products.photo1.data = fs.readFileSync(photo1.path);
+      products.photo1.contentType = photo.type;
+    }
+    if (photo2) {
+      products.photo2.data = fs.readFileSync(photo2.path);
+      products.photo2.contentType = photo.type;
     }
     await products.save();
     res.status(201).send({
@@ -90,7 +106,6 @@ export const getSingleProductController = async (req, res) => {
   try {
     const product = await productModel
       .findOne({ slug: req.params.slug })
-      .select("-photo")
       .populate("category");
     res.status(200).send({
       success: true,
@@ -370,7 +385,7 @@ export const brainTreePaymentController = async (req, res) => {
             payment: result,
             buyer: req.user._id,
           }).save();
-          res.send({ success: true, newTransaction });
+          res.send({ result, cartData });
         } else {
           res.status(500).send(error);
         }

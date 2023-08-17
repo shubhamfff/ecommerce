@@ -25,6 +25,7 @@ const Header = () => {
 
   const handleLogout = () => {
     localStorage.removeItem("auth");
+    window.location.replace("/");
     window.location.reload();
   };
 
@@ -72,7 +73,7 @@ const Header = () => {
         selectedKeys={[current]}
         mode="horizontal"
       >
-        <Menu.Item key="home" style={{ width: 200 }}>
+        <Menu.Item key="home" style={{ width: 150 }}>
           {/* <img
             src={`${import.meta.env.VITE_STRAPI_API}${logo.url}`}
             style={{ width: "2%" }}

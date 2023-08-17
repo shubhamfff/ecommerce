@@ -7,6 +7,7 @@ import axios from "axios";
 import { ToastContainer, toast } from "react-toastify";
 import ProductCards from "../components/ProductCards";
 import AllProductCards from "../components/AllProducts";
+import Loader from "../components/Loader";
 
 const contentStyle = {
   height: "70vh",
@@ -27,6 +28,33 @@ const AllProducts = () => {
   const [page, setPage] = useState(1);
   const [loading, setLoading] = useState(false);
 
+  useEffect(() => {
+    if (page === 1) return;
+    loadMore();
+  }, [page]);
+
+  useEffect(() => {
+    getAllCategory();
+    getTotal();
+  }, []);
+
+  useEffect(() => {
+    if (!checked.length || !radio.length) getAllProducts();
+  }, [checked.length, radio.length]);
+
+  useEffect(() => {
+    if (checked.length || radio.length) filterProduct();
+  }, [checked, radio]);
+
+  useEffect(() => {
+    setLoading(true);
+    if (Object.keys(products).length !== 0) {
+      setLoading(false);
+    } else {
+      setLoading(true);
+    }
+  }, [products]);
+
   //get all cat
   const getAllCategory = async () => {
     try {
@@ -41,21 +69,14 @@ const AllProducts = () => {
     }
   };
 
-  useEffect(() => {
-    getAllCategory();
-    getTotal();
-  }, []);
   //get products
   const getAllProducts = async () => {
     try {
-      setLoading(true);
       const { data } = await axios.get(
         `${import.meta.env.VITE_APP_API}/api/v1/product/product-list/${page}`
       );
-      setLoading(false);
       setProducts(data.products);
     } catch (error) {
-      setLoading(false);
       console.log(error);
     }
   };
@@ -72,42 +93,30 @@ const AllProducts = () => {
     }
   };
 
-  useEffect(() => {
-    if (page === 1) return;
-    loadMore();
-  }, [page]);
   //load more
   const loadMore = async () => {
     try {
-      setLoading(true);
       const { data } = await axios.get(
         `${import.meta.env.VITE_APP_API}/api/v1/product/product-list/${page}`
       );
-      setLoading(false);
       setProducts([...products, ...data?.products]);
     } catch (error) {
       console.log(error);
-      setLoading(false);
     }
   };
 
   // filter by cat
   const handleFilter = (value, id) => {
-    let all = [...checked];
-    if (value) {
-      all.push(id);
-    } else {
-      all = all.filter((c) => c !== id);
-    }
-    setChecked(all);
+    try {
+      let all = [...checked];
+      if (value) {
+        all.push(id);
+      } else {
+        all = all.filter((c) => c !== id);
+      }
+      setChecked(all);
+    } catch (error) {}
   };
-  useEffect(() => {
-    if (!checked.length || !radio.length) getAllProducts();
-  }, [checked.length, radio.length]);
-
-  useEffect(() => {
-    if (checked.length || radio.length) filterProduct();
-  }, [checked, radio]);
 
   //get filterd product
   const filterProduct = async () => {
@@ -124,6 +133,7 @@ const AllProducts = () => {
       console.log(error);
     }
   };
+
   return (
     <>
       <ToastContainer />
@@ -161,26 +171,30 @@ const AllProducts = () => {
             </button>
           </div>
         </div>
-        <div className="col-md-9 ">
-          <h3 className="text-center">All Products</h3>
-          <h5 className="text-center">{total} Products found</h5>
-          <div className="d-flex flex-wrap">
-            <AllProductCards prodArr={products} />
+        {loading ? (
+          <Loader />
+        ) : (
+          <div className="col-md-9 ">
+            <h3 className="text-center">All Products</h3>
+            <h5 className="text-center">{total} Products found</h5>
+            <div className="d-flex flex-wrap">
+              <AllProductCards prodArr={products} gridCount="4" />
+            </div>
+            <div className="m-2 p-3">
+              {products && products.length < total && (
+                <button
+                  className="btn loadmore"
+                  onClick={(e) => {
+                    e.preventDefault();
+                    setPage(page + 1);
+                  }}
+                >
+                  {loading ? "Loading ..." : <>Loadmore</>}
+                </button>
+              )}
+            </div>
           </div>
-          <div className="m-2 p-3">
-            {products && products.length < total && (
-              <button
-                className="btn loadmore"
-                onClick={(e) => {
-                  e.preventDefault();
-                  setPage(page + 1);
-                }}
-              >
-                {loading ? "Loading ..." : <>Loadmore</>}
-              </button>
-            )}
-          </div>
-        </div>
+        )}
       </div>
     </>
   );
